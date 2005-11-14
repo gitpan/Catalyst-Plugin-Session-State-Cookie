@@ -1,0 +1,69 @@
+NAME
+    Catalyst::Plugin::Session::State::Cookie - A session ID
+
+SYNOPSIS
+        use Catalyst qw/Session Session::State::Cookie Session::Store::Foo/;
+
+DESCRIPTION
+    In order for Catalyst::Plugin::Session to work the session ID needs to
+    be stored on the client, and the session data needs to be stored on the
+    server.
+
+    This plugin stores the session ID on the client using the cookie
+    mechanism.
+
+METHODS
+    make_session_cookie
+        Returns a hash reference with the default values for new cookies.
+
+    update_session_cookie $hash_ref
+        Sets the cookie based on "cookie_name" in the response object.
+
+EXTENDED METHODS
+    prepare_cookies
+        Will restore if an appropriate cookie is found.
+
+    finalize_cookies
+        Will set a cookie called "session" if it doesn't exist or if it's
+        value is not the current session id.
+
+    setup_session
+        Will set the "cookie_name" parameter to it's default value if it
+        isn't set.
+
+CONFIGURATION
+    cookie_name
+        The name of the cookie to store (defaults to "session").
+
+    cookie_domain
+        The name of the domain to store in the cookie (defaults to current
+        host)
+
+CAVEATS
+    Sessions have to be created before the first write to be saved. For
+    example:
+
+            sub action : Local {
+                    my ( $self, $c ) = @_;
+                    $c->res->write("foo");
+                    $c->session( ... );
+                    ...
+            }
+
+    Will cause a session ID to not be set, because by the time a session is
+    actually created the headers have already been sent to the client.
+
+SEE ALSO
+    Catalyst, Catalyst::Plugin::Session.
+
+AUTHORS
+    This module is derived from Catalyst::Plugin::Session::FastMmap code,
+    and has been heavily modified since.
+
+    Andrew Ford Andy Grundman Christian Hansen Yuval Kogman,
+    "nothingmuch@woobling.org" Marcus Ramberg Sebastian Riedel
+
+COPYRIGHT
+    This program is free software, you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+

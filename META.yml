@@ -1,0 +1,14 @@
+---
+name: Catalyst-Plugin-Session-State-Cookie
+version: 0.01
+author: ~
+abstract: A session ID
+license: perl
+requires:
+  Catalyst::Plugin::Session: 0.01
+  Test::MockObject: 1.01
+provides:
+  Catalyst::Plugin::Session::State::Cookie:
+    file: lib/Catalyst/Plugin/Session/State/Cookie.pm
+    version: 0.01
+generated_by: Module::Build version 0.2611
