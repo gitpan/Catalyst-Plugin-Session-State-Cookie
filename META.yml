@@ -1,8 +1,8 @@
 ---
 name: Catalyst-Plugin-Session-State-Cookie
-version: 0.01
+version: 0.02
 author: ~
-abstract: A session ID
+abstract: Maintain session IDs using cookies.
 license: perl
 requires:
   Catalyst::Plugin::Session: 0.01
@@ -10,5 +10,5 @@ requires:
 provides:
   Catalyst::Plugin::Session::State::Cookie:
     file: lib/Catalyst/Plugin/Session/State/Cookie.pm
-    version: 0.01
+    version: 0.02
 generated_by: Module::Build version 0.2611

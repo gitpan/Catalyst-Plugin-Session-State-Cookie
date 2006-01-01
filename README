@@ -1,5 +1,6 @@
 NAME
-    Catalyst::Plugin::Session::State::Cookie - A session ID
+    Catalyst::Plugin::Session::State::Cookie - Maintain session IDs using
+    cookies.
 
 SYNOPSIS
         use Catalyst qw/Session Session::State::Cookie Session::Store::Foo/;
@@ -33,11 +34,17 @@ EXTENDED METHODS
 
 CONFIGURATION
     cookie_name
-        The name of the cookie to store (defaults to "session").
+        The name of the cookie to store (defaults to
+        "Catalyst::Utils::apprefix($c) . '_session'").
 
     cookie_domain
         The name of the domain to store in the cookie (defaults to current
         host)
+
+    cookie_expires
+        Number of seconds from now you want to elapse before cookie will
+        expire. Set to 0 to create a session cookie, ie one which will die
+        when the user's browser is shut down.
 
 CAVEATS
     Sessions have to be created before the first write to be saved. For
