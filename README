@@ -46,6 +46,9 @@ CONFIGURATION
         expire. Set to 0 to create a session cookie, ie one which will die
         when the user's browser is shut down.
 
+    cookie_secure
+        If this attribute set true, the cookie will only be sent via HTTPS.
+
 CAVEATS
     Sessions have to be created before the first write to be saved. For
     example:

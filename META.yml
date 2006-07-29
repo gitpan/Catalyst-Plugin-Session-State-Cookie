@@ -1,14 +1,12 @@
----
-name: Catalyst-Plugin-Session-State-Cookie
-version: 0.02
-author: ~
-abstract: Maintain session IDs using cookies.
-license: perl
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         Catalyst-Plugin-Session-State-Cookie
+version:      0.03
+version_from: lib/Catalyst/Plugin/Session/State/Cookie.pm
+installdirs:  site
 requires:
-  Catalyst::Plugin::Session: 0.01
-  Test::MockObject: 1.01
-provides:
-  Catalyst::Plugin::Session::State::Cookie:
-    file: lib/Catalyst/Plugin/Session/State/Cookie.pm
-    version: 0.02
-generated_by: Module::Build version 0.2611
+    Catalyst::Plugin::Session:     0.01
+    Test::MockObject:              1.01
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.30

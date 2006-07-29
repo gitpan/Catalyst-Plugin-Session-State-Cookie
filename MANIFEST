@@ -10,4 +10,3 @@ t/02pod.t
 t/03podcoverage.t
 t/basic.t
 t/live_app.t
-SIGNATURE    Added here by Module::Build

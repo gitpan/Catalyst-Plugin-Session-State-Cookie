@@ -7,24 +7,33 @@ use warnings;
 use NEXT;
 use Catalyst::Utils ();
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 sub setup_session {
     my $c = shift;
 
     $c->NEXT::setup_session(@_);
+
     $c->config->{session}{cookie_name}
         ||= Catalyst::Utils::appprefix($c) . '_session';
 }
 
-sub finalize_cookies {
-    my $c = shift;
+sub extend_session_id {
+    my ( $c, $sid, $expires ) = @_;
 
-    if ( $c->sessionid ) {
-        $c->update_session_cookie( $c->make_session_cookie );
+    if ( my $cookie = $c->get_session_cookie ) {
+        $c->update_session_cookie( $c->make_session_cookie( $sid ) );
     }
 
-    return $c->NEXT::finalize_cookies(@_);
+    $c->NEXT::extend_session_id( @_ );
+}
+
+sub set_session_id {
+    my ( $c, $sid ) = @_;
+
+    $c->update_session_cookie( $c->make_session_cookie( $sid ) );
+
+    return $c->NEXT::set_session_id(@_);
 }
 
 sub update_session_cookie {
@@ -34,43 +43,75 @@ sub update_session_cookie {
 }
 
 sub make_session_cookie {
-    my $c = shift;
+    my ( $c, $sid, %attrs ) = @_;
 
     my $cfg    = $c->config->{session};
     my $cookie = {
-        value => $c->sessionid,
+        value => $sid,
         ( $cfg->{cookie_domain} ? ( domain => $cfg->{cookie_domain} ) : () ),
+        %attrs,
     };
 
-    if ( exists $cfg->{cookie_expires} ) {
-        if ( $cfg->{cookie_expires} > 0 ) {
-            $cookie->{expires} = time() + $cfg->{cookie_expires};
-        }
-        else {
-            $cookie->{expires} = undef;
-        }
+    unless ( exists $cookie->{expires} ) {
+        $cookie->{expires} = $c->calculate_session_cookie_expires();
     }
-    else {
-        $cookie->{expires} = $c->session_expires;
-    }
+
+    $cookie->{secure} = 1 if $cfg->{cookie_secure};
 
     return $cookie;
 }
 
-sub prepare_cookies {
+sub calc_expiry { # compat
     my $c = shift;
+    $c->NEXT::calc_expiry( @_ ) || $c->calculate_session_cookie_expires( @_ );
+}
 
-    my $ret = $c->NEXT::prepare_cookies(@_);
+sub calculate_session_cookie_expires {
+    my $c   = shift;
+    my $cfg = $c->config->{session};
+
+    my $value = $c->NEXT::calculate_session_cookie_expires(@_);
+    return $value if $value;
+
+    if ( exists $cfg->{cookie_expires} ) {
+        if ( $cfg->{cookie_expires} > 0 ) {
+            return time() + $cfg->{cookie_expires};
+        }
+        else {
+            return undef;
+        }
+    }
+    else {
+        return $c->session_expires;
+    }
+}
+
+sub get_session_cookie {
+    my $c = shift;
 
     my $cookie_name = $c->config->{session}{cookie_name};
 
-    if ( my $cookie = $c->request->cookies->{$cookie_name} ) {
+    return $c->request->cookies->{$cookie_name};
+}
+
+sub get_session_id {
+    my $c = shift;
+
+    if ( my $cookie = $c->get_session_cookie  ) { 
         my $sid = $cookie->value;
-        $c->sessionid($sid);
         $c->log->debug(qq/Found sessionid "$sid" in cookie/) if $c->debug;
+        return $sid if $sid;
     }
 
-    return $ret;
+    $c->NEXT::get_session_id(@_);
+}
+
+sub delete_session_id {
+    my ( $c, $sid ) = @_;
+
+    $c->update_session_cookie( $c->make_session_cookie( $sid, expires => 0 ) );
+
+    $c->NEXT::delete_session_id($sid);
 }
 
 __PACKAGE__
@@ -144,6 +185,10 @@ The name of the domain to store in the cookie (defaults to current host)
 Number of seconds from now you want to elapse before cookie will expire. 
 Set to 0 to create a session cookie, ie one which will die when the 
 user's browser is shut down.
+
+=item cookie_secure
+
+If this attribute set true, the cookie will only be sent via HTTPS.
 
 =back
 
