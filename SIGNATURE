@@ -1,0 +1,34 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.54.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 229b4557c86fb6da0cef1d1f6fc3e1b161188e5a Changes
+SHA1 cd632b67f73845ba8c963a0ecbfd8159455bb625 MANIFEST
+SHA1 138a83c3c52f5c9df79056e0ff2550c24a1f53ec META.yml
+SHA1 d61c085f79f3fcc16ed5f1507e9ffc7c218d6b0a Makefile.PL
+SHA1 1f3ee71c48847b71ebb752808a24e9821a355521 README
+SHA1 2727ecedbf2caf93e7ab2991c7d88f6d0b647fed lib/Catalyst/Plugin/Session/State/Cookie.pm
+SHA1 92b6cd885c77492b5fd54524f74380e872ca6caf t/01use.t
+SHA1 86d255a7c9f065a13049108362c949b3e35a4c24 t/02pod.t
+SHA1 e923679a1bbd8eb8f727e46f5906af25de27ec97 t/03podcoverage.t
+SHA1 d5b87df76fdd82bc3d523725bf393ada5748a34d t/basic.t
+SHA1 972268e6db6c4812ba22034b58ce9a5978f54ff8 t/live_app.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.1 (Darwin)
+
+iD8DBQFEzfPtVCwRwOvSdBgRAmMgAKCXsChv5t9F4C80j70WKgbd6gBoMACgu3TS
+3eeqSSyx4D6V9xqwLi/a780=
+=RbF/
+-----END PGP SIGNATURE-----

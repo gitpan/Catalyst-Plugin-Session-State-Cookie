@@ -1,4 +1,3 @@
-Build.PL
 Changes
 lib/Catalyst/Plugin/Session/State/Cookie.pm
 Makefile.PL
@@ -10,3 +9,4 @@ t/02pod.t
 t/03podcoverage.t
 t/basic.t
 t/live_app.t
+SIGNATURE                                Public-key signature (added by MakeMaker)
