@@ -2,15 +2,14 @@
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
+          'PL_FILES' => {},
+          'INSTALLDIRS' => 'site',
           'NAME' => 'Catalyst::Plugin::Session::State::Cookie',
+          'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/Catalyst/Plugin/Session/State/Cookie.pm',
           'PREREQ_PM' => {
-                           'Catalyst::Plugin::Session' => '0.06',
-                           'Test::MockObject' => '1.01'
-                         },
-          'INSTALLDIRS' => 'site',
-          'EXE_FILES' => [],
-          'SIGN'     => 1,
-          'PL_FILES' => {}
+                           'Test::MockObject' => '1.01',
+                           'Catalyst::Plugin::Session' => '0.06'
+                         }
         )
 ;

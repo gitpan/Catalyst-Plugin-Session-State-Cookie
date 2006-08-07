@@ -49,6 +49,9 @@ CONFIGURATION
     cookie_secure
         If this attribute set true, the cookie will only be sent via HTTPS.
 
+    cookie_path
+        The path of the request url where cookie should be baked.
+
 CAVEATS
     Sessions have to be created before the first write to be saved. For
     example:
