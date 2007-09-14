@@ -1,5 +1,9 @@
 Revision history for Perl extension Catalyst::Plugin::Session::State::Cookie
 
+0.08    2007-09-14
+        - Fix live test with Mech version 0.37+
+        - Switch to Module::Install
+
 0.07    2007-04-04 23:10:00
         - Fix the bug that caused sessions to expire immediately when another
           session was deleted previously in the same request cycle

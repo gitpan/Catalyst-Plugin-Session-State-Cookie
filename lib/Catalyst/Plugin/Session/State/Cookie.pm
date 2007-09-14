@@ -7,7 +7,7 @@ use warnings;
 use NEXT;
 use Catalyst::Utils ();
 
-our $VERSION = "0.07";
+our $VERSION = "0.08";
 
 BEGIN { __PACKAGE__->mk_accessors(qw/_deleted_session_id/) }
 
@@ -165,6 +165,22 @@ Returns a hash reference with the default values for new cookies.
 
 Sets the cookie based on C<cookie_name> in the response object.
 
+=item calc_expiry
+
+=item calculate_session_cookie_expires
+
+=item cookie_is_rejecting
+
+=item delete_session_id
+
+=item extend_session_id
+
+=item get_session_cookie
+
+=item get_session_id
+
+=item set_session_id
+
 =back
 
 =head1 EXTENDED METHODS
@@ -234,14 +250,18 @@ L<Catalyst>, L<Catalyst::Plugin::Session>.
 
 =head1 AUTHORS
 
+Yuval Kogman E<lt>nothingmuch@woobling.orgE<gt>
+
+=head1 CONTRIBUTORS
+
 This module is derived from L<Catalyst::Plugin::Session::FastMmap> code, and
 has been heavily modified since.
 
 Andrew Ford
 Andy Grundman
 Christian Hansen
-Yuval Kogman, C<nothingmuch@woobling.org>
 Marcus Ramberg
+Jonathan Rockway E<lt>jrockway@cpan.orgE<gt>
 Sebastian Riedel
 
 =head1 COPYRIGHT
