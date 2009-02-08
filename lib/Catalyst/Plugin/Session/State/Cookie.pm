@@ -4,17 +4,17 @@ use base qw/Catalyst::Plugin::Session::State Class::Accessor::Fast/;
 use strict;
 use warnings;
 
-use NEXT;
+use MRO::Compat;
 use Catalyst::Utils ();
 
-our $VERSION = "0.09";
+our $VERSION = "0.10";
 
 BEGIN { __PACKAGE__->mk_accessors(qw/_deleted_session_id/) }
 
 sub setup_session {
     my $c = shift;
 
-    $c->NEXT::setup_session(@_);
+    $c->maybe::next::method(@_);
 
     $c->config->{session}{cookie_name}
         ||= Catalyst::Utils::appprefix($c) . '_session';
@@ -27,7 +27,7 @@ sub extend_session_id {
         $c->update_session_cookie( $c->make_session_cookie( $sid ) );
     }
 
-    $c->NEXT::extend_session_id( $sid, $expires );
+    $c->maybe::next::method( $sid, $expires );
 }
 
 sub set_session_id {
@@ -35,7 +35,7 @@ sub set_session_id {
 
     $c->update_session_cookie( $c->make_session_cookie( $sid ) );
 
-    return $c->NEXT::set_session_id($sid);
+    return $c->maybe::next::method($sid);
 }
 
 sub update_session_cookie {
@@ -79,14 +79,14 @@ sub make_session_cookie {
 
 sub calc_expiry { # compat
     my $c = shift;
-    $c->NEXT::calc_expiry( @_ ) || $c->calculate_session_cookie_expires( @_ );
+    $c->maybe::next::method( @_ ) || $c->calculate_session_cookie_expires( @_ );
 }
 
 sub calculate_session_cookie_expires {
     my $c   = shift;
     my $cfg = $c->config->{session};
 
-    my $value = $c->NEXT::calculate_session_cookie_expires(@_);
+    my $value = $c->maybe::next::method(@_);
     return $value if $value;
 
     if ( exists $cfg->{cookie_expires} ) {
@@ -119,7 +119,7 @@ sub get_session_id {
         return $sid if $sid;
     }
 
-    $c->NEXT::get_session_id(@_);
+    $c->maybe::next::method(@_);
 }
 
 sub delete_session_id {
@@ -129,7 +129,7 @@ sub delete_session_id {
 
     $c->update_session_cookie( $c->make_session_cookie( $sid, expires => 0 ) );
 
-    $c->NEXT::delete_session_id($sid);
+    $c->maybe::next::method($sid);
 }
 
 __PACKAGE__
@@ -193,12 +193,12 @@ Will restore if an appropriate cookie is found.
 
 =item finalize_cookies
 
-Will set a cookie called C<session> if it doesn't exist or if it's value is not
+Will set a cookie called C<session> if it doesn't exist or if its value is not
 the current session id.
 
 =item setup_session
 
-Will set the C<cookie_name> parameter to it's default value if it isn't set.
+Will set the C<cookie_name> parameter to its default value if it isn't set.
 
 =back
 
@@ -230,6 +230,12 @@ The path of the request url where cookie should be baked.
 
 =back
 
+For example, you could stick this in MyApp.pm:
+
+  __PACKAGE__->config( session => {
+     cookie_domain  => '.mydomain.com',
+  });
+
 =head1 CAVEATS
 
 Sessions have to be created before the first write to be saved. For example:
@@ -257,12 +263,12 @@ Yuval Kogman E<lt>nothingmuch@woobling.orgE<gt>
 This module is derived from L<Catalyst::Plugin::Session::FastMmap> code, and
 has been heavily modified since.
 
-Andrew Ford
-Andy Grundman
-Christian Hansen
-Marcus Ramberg
-Jonathan Rockway E<lt>jrockway@cpan.orgE<gt>
-Sebastian Riedel
+  Andrew Ford
+  Andy Grundman
+  Christian Hansen
+  Marcus Ramberg
+  Jonathan Rockway E<lt>jrockway@cpan.orgE<gt>
+  Sebastian Riedel
 
 =head1 COPYRIGHT
 
