@@ -2,8 +2,12 @@
 abstract: 'Maintain session IDs using cookies.'
 author:
   - 'Yuval Kogman <nothingmuch@woobling.org>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.77'
+generated_by: 'Module::Install version 0.87'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -20,4 +24,4 @@ requires:
   Test::MockObject: 1.01
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.10
+version: 0.11
