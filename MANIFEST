@@ -21,3 +21,4 @@ t/03podcoverage.t
 t/basic.t
 t/lib/CookieTestApp.pm
 t/live_app.t
+t/no_new_method.t
