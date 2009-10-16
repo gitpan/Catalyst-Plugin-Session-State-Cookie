@@ -7,17 +7,9 @@ extends 'Catalyst::Plugin::Session::State';
 use MRO::Compat;
 use Catalyst::Utils ();
 
-our $VERSION = "0.15";
+our $VERSION = "0.16";
 
 has _deleted_session_id => ( is => 'rw' );
-
-# FIXME - Can go away when we dep on new Session..
-sub _session_plugin_config {
-    my $c = shift;
-    my $key = $c->config->{'Plugin::Session'} ?
-        'Plugin::Session' : 'session';
-    $c->config->{$key} ||= {};
-}
 
 sub setup_session {
     my $c = shift;
@@ -311,6 +303,7 @@ has been heavily modified since.
   Marcus Ramberg
   Jonathan Rockway E<lt>jrockway@cpan.orgE<gt>
   Sebastian Riedel
+  Florian Ragwitz
 
 =head1 COPYRIGHT
 
